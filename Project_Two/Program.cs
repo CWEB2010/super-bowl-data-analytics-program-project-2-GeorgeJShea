@@ -22,11 +22,13 @@ namespace readSuperBowl
         {
             Console.WriteLine("Please Name the file what ever you wish");
             Console.WriteLine("Be sure to add a .txt at end of the file");
-            Console.Write("Example C:\\Users\\shegeoj\\source\\repos\\readSuperBowl\\readSuperBowl\\bin\\Debug\\netcoreapp3.1\\");
+            Console.Write("\\");
             string endPoint = Console.ReadLine();
 
 
-            endPoint = (@"C:\Users\shegeoj\source\repos\readSuperBowl\readSuperBowl\bin\Debug\netcoreapp3.1\" + endPoint);
+            string initStart = Path.GetFullPath("readSuperBowl");
+
+            endPoint = (@endPoint);
 
             if (endPoint.Contains(".txt")) 
             {
