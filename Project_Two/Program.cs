@@ -1,7 +1,7 @@
 /*
 Made By name Sseta
 Created 2/3/2020
-Version 2.0
+Version 3.0
 Version Update 3/3/2020
 Use reads from a file and writes to another file then displays html
 
@@ -20,6 +20,10 @@ namespace readSuperBowl
     {
         static void Main(string[] args)
         {
+            startUp();
+        }
+        static void startUp()
+        {
             Console.WriteLine("Please Name the file what ever you wish");
             Console.WriteLine("Be sure to add a .html at end of the file");
             Console.WriteLine("Will be stored at \n C:\\Users\\shegeoj\\source\\repos\\readSuperBowl\\readSuperBowl\\bin\\Debug\\netcoreapp3.1");
@@ -31,7 +35,7 @@ namespace readSuperBowl
 
             //Application.Exit
 
-            if (endPoint.Contains(".html")) 
+            if (endPoint.Contains(".html"))
             {
                 if (endPoint.Contains("/"))
                 {
@@ -49,8 +53,9 @@ namespace readSuperBowl
             else
             {
                 Console.WriteLine("extenstion invalid");
+                Console.WriteLine("\n\n");
+                startUp();
             }
-
         }
         static int Printer(string writeLocation)
         {
@@ -60,7 +65,9 @@ namespace readSuperBowl
             // start of paragraph and html format complete
 
             writeSystem.Add("<html>");
-            writeSystem.Add("<style> h4 {margin: 0px; border-style: solid;} </style > ");
+            writeSystem.Add("<style> h1 {margin: 3px; text-align: center;} </style > ");
+            writeSystem.Add("<style> h4 {margin: 0px; border-style: solid; background-color: lightgray; text-align: center;} </style > ");
+
             string fullPath = Path.GetFullPath("Super_Bowl_Project.csv");
 
             int counter = 0;
@@ -148,14 +155,20 @@ namespace readSuperBowl
 
 
             // will write all new info 
-
+            string[] split = @writeLocation.Split("/");
             try
             {
                 File.WriteAllLines(@writeLocation, writeSystem);
+                
+                Console.WriteLine("Data is found at this website: ");
+                Console.WriteLine("file:///" +((fullPath + "\\" + writeLocation).Replace("\\", "/")).Replace("/Super_Bowl_Project.csv", ""));
+                Console.WriteLine();
             }
             catch
             {
                 Console.WriteLine("file location error");
+                Console.WriteLine();
+                startUp();
             }
             return 0;
         }
@@ -193,6 +206,7 @@ namespace readSuperBowl
 
             writeSystem.Add(headers[mode]);
 
+            writeSystem.Add("<h4>");
 
             foreach (SuperBowlObject x in SuburbList)
             {
@@ -212,46 +226,48 @@ namespace readSuperBowl
                 int index = Sorter.FindIndex(x => x.StartsWith(count));
                 if (mode == 0)
                 {
-                    writeSystem.Add("<h4> &emsp; Winning Team " + SuburbList[index].Win +
+                    writeSystem.Add("  &emsp; Winning Team " + SuburbList[index].Win +
                     " Year " + SuburbList[index].Dat +
                     " Winning Quaterback " + SuburbList[index].QB_Win +
                     " Winning Coach " + SuburbList[index].Coach_Win +
                     " MVP " + SuburbList[index].MVP +
-                    " Point Diffrence " + (SuburbList[index].Win_Pnts - SuburbList[index].Lose_pnts) + "</h4> <br>");
+                    " Point Diffrence " + (SuburbList[index].Win_Pnts - SuburbList[index].Lose_pnts) + "<br>");
                 }
                 else if (mode == 1)
                 {
                     // most hosted superbowl
-                    writeSystem.Add(("<h4> &emsp; City " + SuburbList[index].Cit + " State " + SuburbList[index].Stat +
-                        " Stadium " + SuburbList[index].Stad + "</h4> <br>"));
+                    writeSystem.Add(("  &emsp; City " + SuburbList[index].Cit + " State " + SuburbList[index].Stat +
+                        " Stadium " + SuburbList[index].Stad + "<br>"));
                 }
                 else if (mode == 2)
                 {
                     // mvp
-                    writeSystem.Add("<h4> &emsp; Mvp " + SuburbList[index].MVP + " Winner " + SuburbList[index].Win +
-                        " Losser " + SuburbList[index].Lose + "</h4> <br>");
+                    writeSystem.Add("  &emsp; Mvp " + SuburbList[index].MVP + " Winner " + SuburbList[index].Win +
+                        " Losser " + SuburbList[index].Lose + "  <br>");
                 }
                 else if (mode == 3)
                 {
                     // coach winning
-                    writeSystem.Add("<h4> &emsp; " + SuburbList[index].Coach_Win + "</h4> <br>");
+                    writeSystem.Add("  &emsp; " + SuburbList[index].Coach_Win + "  <br>");
                 }
                 else if (mode == 4)
                 {
                     // coach losing or winning team and loosing team
-                    writeSystem.Add("<h4> &emsp; " + SuburbList[index].Coach_Lose + "</h4> <br>");
+                    writeSystem.Add("  &emsp; " + SuburbList[index].Coach_Lose + "  <br>");
                 }
                 else if (mode == 5)
                 {
                     // winner
-                    writeSystem.Add("<h4> &emsp; " + SuburbList[index].Win + "</h4> <br>");
+                    writeSystem.Add("  &emsp; " + SuburbList[index].Win + "  <br>");
                 }
                 else if (mode == 6)
                 {
                     // winner
-                    writeSystem.Add("<h4> &emsp; " + SuburbList[index].Lose + "</h4> <br>");
+                    writeSystem.Add("  &emsp; " + SuburbList[index].Lose + "  <br>");
                 }
             }
+            writeSystem.Add("</h4>");
+            writeSystem.Add("<h4> </h4>");
         }
         static public void intAver(List<int> Sorter, List<SuperBowlObject> SuburbList, List<string> writeSystem)
         {
@@ -290,14 +306,16 @@ namespace readSuperBowl
             var top = (from i in Sorter
                    orderby i descending
                    select i).Take(strenght);
+            writeSystem.Add("<h4>");
 
             foreach (var x in top)
             {
                 int topFive = Sorter.IndexOf(x);
-                writeSystem.Add("<h4> &emsp; " + SuburbList[topFive].Roman + "</h4> <br>");
+                writeSystem.Add("&emsp; " + SuburbList[topFive].Roman + "<br>");
 
             }
-
+            writeSystem.Add("</h4>");
+            writeSystem.Add("<h4> </h4>");
         }
     }
 }
