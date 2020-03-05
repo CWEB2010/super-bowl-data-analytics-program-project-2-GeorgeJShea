@@ -35,7 +35,8 @@ namespace readSuperBowl
 
             //Application.Exit
 
-            if (endPoint.Contains(".html"))
+            string[] testHtml = endPoint.Split(".");
+            if (endPoint.Contains(".html") && testHtml[testHtml.Length - 1].Length == 4)
             {
                 if (endPoint.Contains("/"))
                 {
