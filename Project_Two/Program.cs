@@ -1,5 +1,5 @@
 /*
-Made By name Sseta
+Made By George Shea Sseta
 Created 2/3/2020
 Version 3.0
 Version Update 3/3/2020
