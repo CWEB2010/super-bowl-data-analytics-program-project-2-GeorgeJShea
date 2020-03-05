@@ -1,5 +1,5 @@
 /*
-Made By George Shea Sseta
+Made By name Sseta
 Created 2/3/2020
 Version 2.0
 Version Update 3/3/2020
@@ -21,16 +21,17 @@ namespace readSuperBowl
         static void Main(string[] args)
         {
             Console.WriteLine("Please Name the file what ever you wish");
-            Console.WriteLine("Be sure to add a .txt at end of the file");
+            Console.WriteLine("Be sure to add a .html at end of the file");
+            Console.WriteLine("Will be stored at \n C:\\Users\\shegeoj\\source\\repos\\readSuperBowl\\readSuperBowl\\bin\\Debug\\netcoreapp3.1");
             Console.Write("\\");
             string endPoint = Console.ReadLine();
 
 
             string initStart = Path.GetFullPath("readSuperBowl");
 
-            endPoint = (@endPoint);
+            //Application.Exit
 
-            if (endPoint.Contains(".txt")) 
+            if (endPoint.Contains(".html")) 
             {
                 if (endPoint.Contains("/"))
                 {
@@ -56,7 +57,10 @@ namespace readSuperBowl
             // used to write to another file 
             List<string> writeSystem = new List<string>();
 
+            // start of paragraph and html format complete
 
+            writeSystem.Add("<html>");
+            writeSystem.Add("<style> h4 {margin: 0px; border-style: solid;} </style > ");
             string fullPath = Path.GetFullPath("Super_Bowl_Project.csv");
 
             int counter = 0;
@@ -138,7 +142,7 @@ namespace readSuperBowl
 
             SuperBowlObject.intDif(Winning_Pnts, SuperList, 5, writeSystem);
 
-            SuperBowlObject.intMax(Attedence, SuperList, 1, writeSystem);
+            SuperBowlObject.intMax(Attedence, SuperList, 5, writeSystem);
 
             SuperBowlObject.intAver(Attedence, SuperList, writeSystem);
 
@@ -177,8 +181,19 @@ namespace readSuperBowl
 
         static public void StrOrg(List<string> Sorter, List<SuperBowlObject> SuburbList, int strenght, int mode, List<string> writeSystem)
         {
-
+            // used to stop over printings
             int counter = 0;
+            string[] headers = { "<h1> All Teams that have won a super bowl </h1> <br>",
+                                 "<h1> Most Hosted SuperBowl <h1>  <br>",
+                                 "<h1> Most Valuable Player <h1> <br>",
+                                 "<h1>  Coach who has the most wins </h1> <br>",
+                                 "<h1>  Coach who came in second the most </h1> <br>",
+                                 "<h1>  Most wins </h1>  <br>" ,
+                                 "<h1>  Most 2nd places  </h1> <br>" };
+
+            writeSystem.Add(headers[mode]);
+
+
             foreach (SuperBowlObject x in SuburbList)
             {
                 Sorter.Add(new string(SuburbList[counter].Stat));
@@ -190,57 +205,51 @@ namespace readSuperBowl
               .Where(g => g.Count() > strenght)
               .OrderByDescending(g => g.Count())
               .Select(g => g.Key);
-            writeSystem.Add("All Teams That Have One");
+
             foreach (string count in result)
             {
 
                 int index = Sorter.FindIndex(x => x.StartsWith(count));
                 if (mode == 0)
                 {
-                    writeSystem.Add("Winning Team " + SuburbList[index].Win +
+                    writeSystem.Add("<h4> &emsp; Winning Team " + SuburbList[index].Win +
                     " Year " + SuburbList[index].Dat +
                     " Winning Quaterback " + SuburbList[index].QB_Win +
                     " Winning Coach " + SuburbList[index].Coach_Win +
                     " MVP " + SuburbList[index].MVP +
-                    " Point Diffrence " + (SuburbList[index].Win_Pnts - SuburbList[index].Lose_pnts));
+                    " Point Diffrence " + (SuburbList[index].Win_Pnts - SuburbList[index].Lose_pnts) + "</h4> <br>");
                 }
                 else if (mode == 1)
                 {
                     // most hosted superbowl
-                    writeSystem.Add("Most Hosted SuperBowl");
-                    writeSystem.Add(("City " + SuburbList[index].Cit + " State " + SuburbList[index].Stat +
-                        " Stadium " + SuburbList[index].Stad));
+                    writeSystem.Add(("<h4> &emsp; City " + SuburbList[index].Cit + " State " + SuburbList[index].Stat +
+                        " Stadium " + SuburbList[index].Stad + "</h4> <br>"));
                 }
                 else if (mode == 2)
                 {
                     // mvp
-                    writeSystem.Add("Most Valuable Player");
-                    writeSystem.Add("Mvp " + SuburbList[index].MVP + " Winner " + SuburbList[index].Win +
-                        " Losser " + SuburbList[index].Lose);
+                    writeSystem.Add("<h4> &emsp; Mvp " + SuburbList[index].MVP + " Winner " + SuburbList[index].Win +
+                        " Losser " + SuburbList[index].Lose + "</h4> <br>");
                 }
                 else if (mode == 3)
                 {
                     // coach winning
-                    writeSystem.Add("Coach who has the most wins");
-                    writeSystem.Add(SuburbList[index].Coach_Win);
+                    writeSystem.Add("<h4> &emsp; " + SuburbList[index].Coach_Win + "</h4> <br>");
                 }
                 else if (mode == 4)
                 {
                     // coach losing or winning team and loosing team
-                    writeSystem.Add("Coach who came in second the most");
-                    writeSystem.Add(SuburbList[index].Coach_Lose);
+                    writeSystem.Add("<h4> &emsp; " + SuburbList[index].Coach_Lose + "</h4> <br>");
                 }
                 else if (mode == 5)
                 {
                     // winner
-                    writeSystem.Add("Most wins");
-                    writeSystem.Add(SuburbList[index].Win);
+                    writeSystem.Add("<h4> &emsp; " + SuburbList[index].Win + "</h4> <br>");
                 }
                 else if (mode == 6)
                 {
                     // winner
-                    writeSystem.Add("Most 2nd places");
-                    writeSystem.Add(SuburbList[index].Lose);
+                    writeSystem.Add("<h4> &emsp; " + SuburbList[index].Lose + "</h4> <br>");
                 }
             }
         }
@@ -249,11 +258,11 @@ namespace readSuperBowl
             int counter = 0;
             foreach (SuperBowlObject x in SuburbList)
             {
-                Sorter.Add((SuburbList[counter].Attend));
+                Sorter.Add(SuburbList[counter].Attend);
                 counter = counter + 1;
             }
-            writeSystem.Add("Average Attendce");
-            writeSystem.Add(Convert.ToString(Sorter.Average()));
+            writeSystem.Add("<h1> Average Attendce  </h1> <br>");
+            writeSystem.Add("<h4> &emsp; " + Convert.ToString(Sorter.Average()) + "</h4> <br>");
         }
         static public void intDif(List<int> Sorter, List<SuperBowlObject> SuburbList, int strenght, List<string> writeSystem)
         {
@@ -265,13 +274,13 @@ namespace readSuperBowl
                 Point_Dif.Add(temp);
                 counter = counter + 1;
             }
-            writeSystem.Add("Biggest Point Diffrence");
-            writeSystem.Add(SuburbList[Point_Dif.IndexOf(Point_Dif.Max())].Roman);
+            writeSystem.Add("<h1>  Biggest Point Diffrence </h1> <br>");
+            writeSystem.Add("<h4> &emsp; " + SuburbList[Point_Dif.IndexOf(Point_Dif.Max())].Roman + "</h4> <br>");
         }
         static public void intMax(List<int> Sorter, List<SuperBowlObject> SuburbList, int strenght, List<string> writeSystem)
         {
             int counter = 0;
-            writeSystem.Add("Top 5 Attended super bowls");
+            writeSystem.Add("<h1> Top 5 Attended super bowls  </h1> <br>");
             foreach (SuperBowlObject x in SuburbList)
             {
                 Sorter.Add((SuburbList[counter].Attend));
@@ -285,7 +294,7 @@ namespace readSuperBowl
             foreach (var x in top)
             {
                 int topFive = Sorter.IndexOf(x);
-                writeSystem.Add(SuburbList[topFive].Roman);
+                writeSystem.Add("<h4> &emsp; " + SuburbList[topFive].Roman + "</h4> <br>");
 
             }
 
